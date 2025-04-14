@@ -30,10 +30,11 @@ export async function POST(request: Request) {
         if(existingUserVerifiedByUsername){
             return Response.json({
                 success: false,
-                message: "username exist"
+                message: "username is already taken"
             }, {status: 400})
         }
-
+        
+        // check if user already exists with the same email
         const existingUserByEmail = await UserModel.findOne({email})
         const verifyCode = Math.floor(100000 + Math.random()*900000).toString()
         if(existingUserByEmail){
@@ -50,6 +51,7 @@ export async function POST(request: Request) {
                 await existingUserByEmail.save()
             }
         }else{
+            // create a new user and save it to the database
             const  hashedPassword = await bcrypt.hash(password, 10)
             const expiryDate = new Date()
             expiryDate.setHours(expiryDate.getHours() + 1)

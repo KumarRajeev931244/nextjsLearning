@@ -25,9 +25,9 @@ export interface User extends Document{
     username: string;
     email: string;
     password: string;
-    verifyCode: string;
-    verifyCodeExpiry: Date;
-    isVerified: boolean;
+    verifyCode: string;                 //otp
+    verifyCodeExpiry: Date;             //when otp expire
+    isVerified: boolean;                
     isAcceptingMessage: boolean;
     messages: Message[]
 }
@@ -69,6 +69,8 @@ const UserSchema: Schema<User> = new Schema({
 })
 
 // typeScript work on edge cases agar phele se bana ho use kar lo aur nahi bana ho toh bana lo.
+// hot-reloading or in serverless environments where the code might be evaluated multiple times without a full server restart.
+
 const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User", UserSchema) 
 
 export default UserModel

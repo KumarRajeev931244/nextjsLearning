@@ -1,5 +1,8 @@
 import {z} from 'zod'
 
+// zod is a typescript-first schema declaration and validation library.
+// it is used to validate the data and also to define the types of the data.
+
 /**here we have to check single element so we donot use object keyword. */
 export const usernameValidation = z
     .string()

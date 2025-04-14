@@ -30,6 +30,8 @@ export async function POST(request: Request){
                 { status: 403}
             )
         }
+
+        // new message is created
         const newMessage = {content, createdAt: new Date()}
         user.messages.push(newMessage as Message)
         await user.save()

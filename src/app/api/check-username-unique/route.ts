@@ -2,7 +2,7 @@ import {z} from 'zod'
 import UserModel from '@/model/User.model'
 import dbConnect from '@/lib/dbConnent'
 import { usernameValidation } from '@/schemas/signUpSchema'
-import mongoose from 'mongoose'
+
 
 // validation of username is checked
 const UsernameQuerySchema = z.object({
@@ -14,12 +14,15 @@ export async function GET(request: Request){
     try {
         const {searchParams} = new URL(request.url)
         // here we are retriving the username from the searchParam 
+        
         const queryParam = {
             username: searchParams.get('username')
         }
         // validate with zod
         const result = UsernameQuerySchema.safeParse(queryParam)
         console.log(result); //TODO: remove
+
+        // agar result mae error mil raha ho toh
         if(!result.success){
             const  usernameErrors = result.error.format().username?._errors || []
             return Response.json(

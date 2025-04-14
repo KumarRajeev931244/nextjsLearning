@@ -17,19 +17,27 @@ export const authOptions: NextAuthOptions = {
             async authorize(credentials: any): Promise<any>{
                 await dbConnect()
                 try {
+                    // finding the user in the database on the basis of email or username
                     const user = await UserModel.findOne({
                         $or: [
                             {email: credentials.identifier.email},
                             {username: credentials.identifier.username}
                         ]
                     })
+
+                    // if user is not found then throw error
                     if(!user){
                         throw new Error('no user found with this email or username')
                     }
+
+                    // if user is found then check it is verified or not
                     if(!user.isVerified){
                         throw new Error('Please verify your account before login')
                     }
+                    // if user is verified then check the password is correct or not
                     const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password)
+
+                    // if password is correct then return the user
                     if(isPasswordCorrect){
                         return user
                     }else{
@@ -42,6 +50,8 @@ export const authOptions: NextAuthOptions = {
             }
         })
     ],
+
+
     // defining callback
     callbacks:{
         async session({ session, token }) {
@@ -65,15 +75,18 @@ export const authOptions: NextAuthOptions = {
         }
     },
 
-    // here we defining route for pages.
-    
+
+    // defining route for pages.
     pages: {
         signIn: '/sign-in'
     },
+
     // it is used on which basic where can sign-in
     session:{
         strategy: 'jwt'
     },
+
+    
     // it is mandatory to give scret
     secret: process.env.NEXTAUTH_SECRET
 }

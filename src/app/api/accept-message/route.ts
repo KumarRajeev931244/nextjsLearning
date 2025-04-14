@@ -18,6 +18,7 @@ export async function POST(request: Request){
     )
     }
     const userId = user._id;
+    // frontend also share the accept message status 
     const {acceptMessages} = await request.json()
     try {
         const updatedUser = await UserModel.findByIdAndUpdate(
@@ -25,6 +26,8 @@ export async function POST(request: Request){
             {isAcceptingMessage: acceptMessages},
             {new: true}
         )
+
+        // if we failed to update user
         if(!updatedUser){
             return Response.json(
                 {
@@ -35,6 +38,7 @@ export async function POST(request: Request){
             )
 
         }
+        // when we success update the user
         return Response.json(
                 {
                     success: true,
@@ -73,6 +77,8 @@ export async function GET(request: Request){
     const userId = user._id;
     const foundUser = await UserModel.findById(userId)
     try {
+
+        // failed to found the user
         if(!foundUser){
             return Response.json(
                 {

@@ -22,10 +22,12 @@ export async function GET(request: Request){
         // TODO: console the user 
         const user = await UserModel.aggregate([
             // first match then  i will do unwind, sort the record and do group.
-            { $match: {id: userId}},
-            {$unwind: '$messages'},
-            {$sort: {'messages.createdAt': -1}},
-            {$group: {_id: '$id', messages: {$push: '$messages'}}}
+            // match the user on the basis of userId
+            { $match: {id: userId}}, 
+            {$unwind: '$messages'},     //unwind the message
+            {$sort: {'messages.createdAt': -1}},  //sort the message
+            {$group: {_id: '$id', messages: {$push: '$messages'}}}  
+            //group the message on the basis of id and push the message
         ])
 
         // agar user na mile ya phir empty ho

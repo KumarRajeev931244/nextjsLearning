@@ -6,8 +6,7 @@ import { getToken } from 'next-auth/jwt'
 export async function middleware(request: NextRequest) {
     const token = await getToken({req: request})
 
-    // give current url
-    
+    // get current url
     const url = request.nextUrl
     if(token && 
         (
@@ -22,7 +21,8 @@ export async function middleware(request: NextRequest) {
 }
  
 
-// this config vaha use hota kaha-kaha hum middleware ko use karna chahtye hai.
+
+//yeah voh path hai jahan par hum middleware ko use karna chahte hai.
 export const config = {
   matcher: [
     '/sign-in',
