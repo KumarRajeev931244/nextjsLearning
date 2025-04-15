@@ -3,17 +3,19 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { toast } from "sonner"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { signInSchema } from "@/schemas/signInSchema"
 import { signIn } from "next-auth/react"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 const page = () => {
     
     const router = useRouter()
     // zod implementation
     const form = useForm<z.infer<typeof signInSchema>>({
+        // resolver: resolver can 
         resolver: zodResolver(signInSchema),
         defaultValues:{
             identifier: '',
@@ -39,7 +41,7 @@ const page = () => {
             <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
                 <div className="text-center">
                     <h1 className="text-4xl font-extrabold tacking-light lg:text-5xl mb-6">
-                        hoin mystery message
+                        join mystery message
                     </h1>
                     <p className="mb-4"> sign up to start your anonymous adventure</p>
                 </div>
@@ -52,7 +54,7 @@ const page = () => {
                                 <FormItem>
                                 <FormLabel>email</FormLabel>
                                 <FormControl>
-                                    <input placeholder="write email" {...field}
+                                    <Input placeholder="write email" {...field}
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -66,7 +68,7 @@ const page = () => {
                                 <FormItem>
                                 <FormLabel>password</FormLabel>
                                 <FormControl>
-                                    <input type="password" placeholder="write password" {...field}
+                                    <Input type="password" placeholder="write password" {...field}
             
                                     />
                                 </FormControl>
